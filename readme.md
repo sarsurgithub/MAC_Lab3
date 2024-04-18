@@ -757,9 +757,29 @@ POST /_reindex
 
 ## D9
 
+Explain the difference between the analyzers in the different indices.
+
+### Whitespace Analyzer
+
+### English Analyzer
+
+### Custom (Standard + Shingles 1 & 2) Analyzer
+
+### Custom (Standard + Shingles 1 & 3) Analyzer
+
+### Stopwords Analyzer
+
 ## D10
 
+a. The number of indexed documents.
+b. The number of indexed terms in the summary field.
+c. The top 10 frequent terms of the summary field in the index.
+d. The size of the index on disk.
+e. The required time for indexing (e.g. using took field from response to reindex).
+
 ## D11
+
+Make 3 concluding statements bases on the above observations.
 
 ## D12
 
