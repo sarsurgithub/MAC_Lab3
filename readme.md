@@ -783,6 +783,121 @@ Make 3 concluding statements bases on the above observations.
 
 ## D12
 
+### 1. Publications containing the term “Information Retrieval”.
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "query_string": {
+      "query": "summary:\"Information Retrieval\""
+    }
+  },
+  "_source": ["id"]
+}
+```
+### 2. Publications containing both “Information” and “Retrieval”.
+
+TODO : Fix this query
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "query_string": {
+      "query": "summary:(Information) AND summary:(Retrieval)"
+    }
+  },
+  "_source": ["id"]
+}
+```
+### 3. Publications containing at least the term “Retrieval” and, possibly “Information” but not “Database”.
+
+TODO : Fix this query
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "query_string": {
+      "query": "summary:(+Retrieval +(Information -Database))"
+    }
+  },
+  "_source": ["id"]
+}
+```
+
+### 4. Publications containing a term starting with “Info”.
+
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "query_string": {
+      "query": "summary:Info*"
+    }
+  },
+  "_source": ["id"]
+}
+```
+
+### 5. Publications containing the term “Information” close to “Retrieval” (max distance 5).
+
+TODO : Fix this query
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "match_phrase": {
+      "summary": {
+        "query": "Information Retrieval",
+        "slop": 5
+      }
+    }
+  },
+  "_source": ["id"]
+}
+```
+
 ## D13
+
+### 1. Publications containing the term “Information Retrieval”.
+```
+"hits": {
+    "total": {
+      "value": 20,
+      "relation": "eq"
+    }
+```
+
+### 2. Publications containing both “Information” and “Retrieval”.
+```
+"total": {
+      "value": 32,
+      "relation": "eq"
+    }
+```
+### 3. Publications containing at least the term “Retrieval” and, possibly “Information” but not “Database”.
+
+```
+"total": {
+      "value": 32,
+      "relation": "eq"
+    }
+```
+### 4. Publications containing a term starting with “Info”.
+
+```
+"total": {
+      "value": 205,
+      "relation": "eq"
+    }
+```
+
+### 5. Publications containing the term “Information” close to “Retrieval” (max distance 5).
+    
+```
+"total": {
+      "value": 25,
+      "relation": "eq"
+    },
+```
 
 ## D14
