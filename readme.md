@@ -8,13 +8,12 @@ PUT /cacm_standard
     "mappings": {
         "properties": {
             "id": {
-                "type": "keyword"
+                "type": "keyword",
                 "store": true,
                 "index": false
             },
             "author": {
-                "type": "text",
-                "fielddata": true
+                "type": "keyword"
             },
             "title": {
                 "type": "text",
@@ -53,13 +52,12 @@ PUT /cacm_termvector
     "mappings": {
         "properties": {
             "id": {
-                "type": "keyword"
+                "type": "keyword",
                 "store": true,
                 "index": false
             },
             "author": {
-                "type": "text",
-                "fielddata": true
+                "type": "keyword"
             },
             "title": {
                 "type": "text",
@@ -210,16 +208,150 @@ GET /_cat/indices/cacm_standard,cacm_termvector?v
 ```
 ```
 health status index           uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size
-yellow open   cacm_termvector 2RL_rBYeTE63MY1LSWr-3A   1   1       3202            0      2.1mb          2.1mb        2.1mb
-yellow open   cacm_standard   f8ArYHFFRemzvonsMii0ww   1   1       3202            0      1.7mb          1.7mb        1.7mb
+yellow open   cacm_termvector MbFLDQdmTUWCdf4eFT2ObA   1   1       3202            0      2.1mb          2.1mb        2.1mb
+yellow open   cacm_standard   U1GkWjLdRgC5z5U5uoEu1w   1   1       3202            0      1.6mb          1.6mb        1.6mb
 ```
 
-The cacm_standard index has a smaller store size than the cacm_termvector index, which is expected since the term vector index stores more information about the terms in the documents. The term vector index has a store size of 2.1mb, while the standard index has a store size of 1.7mb.
+The cacm_standard index has a smaller store size than the cacm_termvector index, which is expected since the term vector index stores more information about the terms in the documents. The term vector index has a store size of 2.1mb, while the standard index has a store size of 1.6mb.
 
 ## D6
 
-## D7
+```
+GET /cacm_standard/_search
+{
+  "size": 0,
+  "aggs": {
+    "authors": {
+      "terms": {
+        "field": "author",
+        "size": 1
+      }
+    }
+  }
+}
+```
 
+```
+{
+  "took": 164,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "authors": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 3083,
+      "buckets": [
+        {
+          "key": "Thacher Jr., H. C.;",
+          "doc_count": 36
+        }
+      ]
+    }
+  }
+}
+```
+The author with the most documents in the cacm_standard index is "Thacher Jr., H. C.;", with 36 documents.
+
+## D7
+```
+GET /cacm_standard/_search
+{
+  "size": 0,
+  "aggs": {
+    "top_titles": {
+      "terms": {
+        "field": "title",
+        "size": 10,
+        "order": {
+          "_count": "desc"
+        }
+      }
+    }
+  }
+}
+```
+
+```
+{
+  "took": 232,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_titles": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 17307,
+      "buckets": [
+        {
+          "key": "of",
+          "doc_count": 1138
+        },
+        {
+          "key": "algorithm",
+          "doc_count": 975
+        },
+        {
+          "key": "a",
+          "doc_count": 895
+        },
+        {
+          "key": "for",
+          "doc_count": 714
+        },
+        {
+          "key": "the",
+          "doc_count": 645
+        },
+        {
+          "key": "and",
+          "doc_count": 434
+        },
+        {
+          "key": "in",
+          "doc_count": 416
+        },
+        {
+          "key": "on",
+          "doc_count": 340
+        },
+        {
+          "key": "an",
+          "doc_count": 275
+        },
+        {
+          "key": "computer",
+          "doc_count": 275
+        }
+      ]
+    }
+  }
+}
+```
 ## D8
 
 ## D9
