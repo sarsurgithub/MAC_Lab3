@@ -352,6 +352,20 @@ GET /cacm_standard/_search
   }
 }
 ```
+
+| Term      | Frequency |
+|-----------|-----------|
+| of        | 1138      |
+| algorithm | 975       |
+| a         | 895       |
+| for       | 714       |
+| the       | 645       |
+| and       | 434       |
+| in        | 416       |
+| on        | 340       |
+| an        | 275       |
+| computer  | 275       |
+
 ## D8
 
 ## D9
