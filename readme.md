@@ -7,10 +7,12 @@ PUT /cacm_standard
 {
     "mappings": {
         "properties": {
-            "publication_id": {
+            "id": {
                 "type": "keyword"
+                "store": true,
+                "index": false
             },
-            "authors": {
+            "author": {
                 "type": "text",
                 "fielddata": true
             },
@@ -18,7 +20,7 @@ PUT /cacm_standard
                 "type": "text",
                 "fielddata": true
             },
-            "publication_date": {
+            "date": {
                 "type": "date"
             },
             "summary": {
@@ -50,10 +52,12 @@ PUT /cacm_termvector
 {
     "mappings": {
         "properties": {
-            "publication_id": {
+            "id": {
                 "type": "keyword"
+                "store": true,
+                "index": false
             },
-            "authors": {
+            "author": {
                 "type": "text",
                 "fielddata": true
             },
@@ -61,13 +65,13 @@ PUT /cacm_termvector
                 "type": "text",
                 "fielddata": true
             },
-            "publication_date": {
+            "date": {
                 "type": "date"
             },
             "summary": {
                 "type": "text",
                 "index_options": "offsets",
-                "term_vector": "with_positions_offsets_payloads",
+                "term_vector": "yes",
                 "fielddata": true
             }
         }
@@ -87,24 +91,117 @@ POST /_reindex
 }
 ```
 ## D3
-// TODO not working
 
 ```
-GET /cacm_termvector/_termvectors/1
+GET /cacm_termvector/_termvectors/G2hBV44BbRQEeoKD6n1I
 ```
 ```
 {
   "_index": "cacm_termvector",
-  "_id": "97",
-  "_version": 0,
-  "found": false,
-  "took": 1
+  "_id": "G2hBV44BbRQEeoKD6n1I",
+  "_version": 1,
+  "found": true,
+  "took": 2,
+  "term_vectors": {
+    "summary": {
+      "field_statistics": {
+        "sum_doc_freq": 97730,
+        "doc_count": 1585,
+        "sum_ttf": 150220
+      },
+      "terms": {
+        "a": {
+          "term_freq": 1
+        },
+        "accelerates": {
+          "term_freq": 1
+        },
+        "an": {
+          "term_freq": 3
+        },
+        "and": {
+          "term_freq": 1
+        },
+        "applied": {
+          "term_freq": 1
+        },
+        "convergence": {
+          "term_freq": 2
+        },
+        "converges": {
+          "term_freq": 1
+        },
+        "discussed": {
+          "term_freq": 1
+        },
+        "diverges": {
+          "term_freq": 1
+        },
+        "equation": {
+          "term_freq": 1
+        },
+        "example": {
+          "term_freq": 1
+        },
+        "for": {
+          "term_freq": 1
+        },
+        "given": {
+          "term_freq": 1
+        },
+        "if": {
+          "term_freq": 2
+        },
+        "illustrative": {
+          "term_freq": 1
+        },
+        "induces": {
+          "term_freq": 1
+        },
+        "is": {
+          "term_freq": 2
+        },
+        "iteration": {
+          "term_freq": 2
+        },
+        "iterative": {
+          "term_freq": 1
+        },
+        "of": {
+          "term_freq": 2
+        },
+        "procedure": {
+          "term_freq": 1
+        },
+        "rate": {
+          "term_freq": 1
+        },
+        "solution": {
+          "term_freq": 1
+        },
+        "technique": {
+          "term_freq": 1
+        },
+        "the": {
+          "term_freq": 4
+        },
+        "to": {
+          "term_freq": 1
+        },
+        "when": {
+          "term_freq": 1
+        },
+        "which": {
+          "term_freq": 1
+        }
+      }
+    }
+  }
 }
 ```
 ## D4
 
-// TODO What is a term vector?
-
+In Elasticsearch, a term vector is a data structure that provides detailed information about the terms (words) within a specific field of a document. Term vectors contain statistics about each term, such as their frequency, positions, offsets, and more. They are useful for various tasks, including document analysis, relevance scoring, and text mining.
 
 ## D5
 
@@ -113,11 +210,11 @@ GET /_cat/indices/cacm_standard,cacm_termvector?v
 ```
 ```
 health status index           uuid                   pri rep docs.count docs.deleted store.size pri.store.size dataset.size
-yellow open   cacm_termvector 9Q8GyiBJTBGRiQkmPDnI2g   1   1       3202            0      2.5mb          2.5mb        2.5mb
-yellow open   cacm_standard   D5b8EgV_Rd-Tr44646DjpA   1   1       3202            0      1.8mb          1.8mb        1.8mb
+yellow open   cacm_termvector 2RL_rBYeTE63MY1LSWr-3A   1   1       3202            0      2.1mb          2.1mb        2.1mb
+yellow open   cacm_standard   f8ArYHFFRemzvonsMii0ww   1   1       3202            0      1.7mb          1.7mb        1.7mb
 ```
 
-// TODO discuss the size of the indices
+The cacm_standard index has a smaller store size than the cacm_termvector index, which is expected since the term vector index stores more information about the terms in the documents. The term vector index has a store size of 2.1mb, while the standard index has a store size of 1.7mb.
 
 ## D6
 
