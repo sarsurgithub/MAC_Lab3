@@ -756,8 +756,7 @@ POST /_reindex
 ```
 
 ## D9
-
-Explain the difference between the analyzers in the different indices.
+TODO Explain the difference between the analyzers in the different indices.
 
 ### Whitespace Analyzer
 
@@ -770,7 +769,7 @@ Explain the difference between the analyzers in the different indices.
 ### Stopwords Analyzer
 
 ## D10
-
+TODO :
 a. The number of indexed documents.
 b. The number of indexed terms in the summary field.
 c. The top 10 frequent terms of the summary field in the index.
@@ -779,7 +778,7 @@ e. The required time for indexing (e.g. using took field from response to reinde
 
 ## D11
 
-Make 3 concluding statements bases on the above observations.
+TODO Make 3 concluding statements bases on the above observations.
 
 ## D12
 
@@ -901,3 +900,5 @@ GET /cacm_english/_search
 ```
 
 ## D14
+
+TODO
