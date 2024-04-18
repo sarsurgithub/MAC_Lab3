@@ -368,6 +368,393 @@ GET /cacm_standard/_search
 
 ## D8
 
+### Whitespace Analyzer
+```
+PUT /cacm_whitespace
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "whitespace": {
+          "type": "whitespace"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "store": true,
+        "index": false
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fielddata": true
+      },
+      "date": {
+        "type": "date"
+      },
+      "summary": {
+        "type": "text",
+        "index_options": "offsets",
+        "fielddata": true
+      }
+    }
+  }
+}
+```
+```
+POST /_reindex
+{
+  "source": {
+    "index": "cacm_dynamic"
+  },
+  "dest": {
+    "index": "cacm_whitespace"
+  }
+}
+```
+```
+{
+  "took": 1312,
+  "timed_out": false,
+  "total": 3202,
+  "updated": 0,
+  "created": 3202,
+  "deleted": 0,
+  "batches": 4,
+  "version_conflicts": 0,
+  "noops": 0,
+  "retries": {
+    "bulk": 0,
+    "search": 0
+  },
+  "throttled_millis": 0,
+  "requests_per_second": -1,
+  "throttled_until_millis": 0,
+  "failures": []
+}
+```
+
+### English Analyzer
+```
+PUT /cacm_english
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "english": {
+          "type": "english"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "store": true,
+        "index": false
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fielddata": true
+      },
+      "date": {
+        "type": "date"
+      },
+      "summary": {
+        "type": "text",
+        "index_options": "offsets",
+        "fielddata": true
+      }
+    }
+  }
+}
+```
+```
+POST /_reindex
+{
+  "source": {
+    "index": "cacm_dynamic"
+  },
+  "dest": {
+    "index": "cacm_english"
+  }
+}
+```
+```
+{
+  "took": 940,
+  "timed_out": false,
+  "total": 3202,
+  "updated": 0,
+  "created": 3202,
+  "deleted": 0,
+  "batches": 4,
+  "version_conflicts": 0,
+  "noops": 0,
+  "retries": {
+    "bulk": 0,
+    "search": 0
+  },
+  "throttled_millis": 0,
+  "requests_per_second": -1,
+  "throttled_until_millis": 0,
+  "failures": []
+}
+```
+
+### Custom (Standard + Shingles 1 & 2) Analyzer
+```
+PUT /cacm_custom_shingles12
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "custom_shingles12": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "shingle_filter_12"]
+        }
+      },
+      "filter": {
+        "shingle_filter_12": {
+          "type": "shingle",
+          "max_shingle_size": 2,
+          "output_unigrams": true
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "store": true,
+        "index": false
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fielddata": true
+      },
+      "date": {
+        "type": "date"
+      },
+      "summary": {
+        "type": "text",
+        "index_options": "offsets",
+        "fielddata": true
+      }
+    }
+  }
+}
+```
+```
+POST /_reindex
+{
+  "source": {
+    "index": "cacm_dynamic"
+  },
+  "dest": {
+    "index": "cacm_custom_shingles12"
+  }
+}
+```
+```
+{
+  "took": 1052,
+  "timed_out": false,
+  "total": 3202,
+  "updated": 0,
+  "created": 3202,
+  "deleted": 0,
+  "batches": 4,
+  "version_conflicts": 0,
+  "noops": 0,
+  "retries": {
+    "bulk": 0,
+    "search": 0
+  },
+  "throttled_millis": 0,
+  "requests_per_second": -1,
+  "throttled_until_millis": 0,
+  "failures": []
+}
+```
+
+### Custom (Standard + Shingles 1 & 3) Analyzer
+```
+PUT /cacm_custom_shingles13
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "custom_shingles13": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["lowercase", "shingle_filter_13"]
+        }
+      },
+      "filter": {
+        "shingle_filter_13": {
+          "type": "shingle",
+          "max_shingle_size": 3,
+          "min_shingle_size": 3,
+          "output_unigrams": false
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "store": true,
+        "index": false
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fielddata": true
+      },
+      "date": {
+        "type": "date"
+      },
+      "summary": {
+        "type": "text",
+        "index_options": "offsets",
+        "fielddata": true
+      }
+    }
+  }
+}
+```
+```
+POST /_reindex
+{
+  "source": {
+    "index": "cacm_dynamic"
+  },
+  "dest": {
+    "index": "cacm_custom_shingles13"
+  }
+}
+```
+```
+{
+  "took": 1379,
+  "timed_out": false,
+  "total": 3202,
+  "updated": 0,
+  "created": 3202,
+  "deleted": 0,
+  "batches": 4,
+  "version_conflicts": 0,
+  "noops": 0,
+  "retries": {
+    "bulk": 0,
+    "search": 0
+  },
+  "throttled_millis": 0,
+  "requests_per_second": -1,
+  "throttled_until_millis": 0,
+  "failures": []
+}
+```
+
+### Stopwords Analyzer
+```
+PUT /cacm_custom_stopwords
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "english_stop": {
+          "type": "stop",
+          "stopwords_path": "data/common_words.txt"
+        }
+      },
+      "analyzer": {
+        "custom_stopwords": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": ["english_stop"]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "store": true,
+        "index": false
+      },
+      "author": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "fielddata": true
+      },
+      "date": {
+        "type": "date"
+      },
+      "summary": {
+        "type": "text",
+        "index_options": "offsets",
+        "fielddata": true
+      }
+    }
+  }
+}
+```
+```
+POST /_reindex
+{
+  "source": {
+    "index": "cacm_dynamic"
+  },
+  "dest": {
+    "index": "cacm_custom_stopwords"
+  }
+}
+```
+```
+{
+  "took": 307,
+  "timed_out": false,
+  "total": 3202,
+  "updated": 0,
+  "created": 3202,
+  "deleted": 0,
+  "batches": 4,
+  "version_conflicts": 0,
+  "noops": 0,
+  "retries": {
+    "bulk": 0,
+    "search": 0
+  },
+  "throttled_millis": 0,
+  "requests_per_second": -1,
+  "throttled_until_millis": 0,
+  "failures": []
+}
+```
+
 ## D9
 
 ## D10
