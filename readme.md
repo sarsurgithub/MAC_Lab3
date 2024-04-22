@@ -721,7 +721,6 @@ GET /cacm_english/_search
 ```
 ### 3. Publications containing at least the term “Retrieval” and, possibly “Information” but not “Database”.
 
-TODO : Fix this query
 ```
 GET /cacm_english/_search
 {
