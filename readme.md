@@ -375,7 +375,7 @@ PUT /cacm_whitespace
   "settings": {
     "analysis": {
       "analyzer": {
-        "whitespace": {
+        "default": {
           "type": "whitespace"
         }
       }
@@ -420,7 +420,7 @@ POST /_reindex
 ```
 ```
 {
-  "took": 1312,
+  "took": 313,
   "timed_out": false,
   "total": 3202,
   "updated": 0,
@@ -440,6 +440,75 @@ POST /_reindex
 }
 ```
 
+```
+{
+  "took": 50,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_summary_terms": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 90426,
+      "buckets": [
+        {
+          "key": "of",
+          "doc_count": 1534
+        },
+        {
+          "key": "the",
+          "doc_count": 1501
+        },
+        {
+          "key": "is",
+          "doc_count": 1382
+        },
+        {
+          "key": "and",
+          "doc_count": 1369
+        },
+        {
+          "key": "a",
+          "doc_count": 1321
+        },
+        {
+          "key": "to",
+          "doc_count": 1293
+        },
+        {
+          "key": "in",
+          "doc_count": 1188
+        },
+        {
+          "key": "for",
+          "doc_count": 1167
+        },
+        {
+          "key": "The",
+          "doc_count": 1072
+        },
+        {
+          "key": "are",
+          "doc_count": 1022
+        }
+      ]
+    }
+  }
+}
+```
+
 ### English Analyzer
 ```
 PUT /cacm_english
@@ -447,7 +516,7 @@ PUT /cacm_english
   "settings": {
     "analysis": {
       "analyzer": {
-        "english": {
+        "default": {
           "type": "english"
         }
       }
@@ -492,7 +561,7 @@ POST /_reindex
 ```
 ```
 {
-  "took": 940,
+  "took": 346,
   "timed_out": false,
   "total": 3202,
   "updated": 0,
@@ -509,6 +578,75 @@ POST /_reindex
   "requests_per_second": -1,
   "throttled_until_millis": 0,
   "failures": []
+}
+```
+
+```
+{
+  "took": 25,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_summary_terms": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 66576,
+      "buckets": [
+        {
+          "key": "which",
+          "doc_count": 781
+        },
+        {
+          "key": "us",
+          "doc_count": 778
+        },
+        {
+          "key": "comput",
+          "doc_count": 663
+        },
+        {
+          "key": "program",
+          "doc_count": 635
+        },
+        {
+          "key": "system",
+          "doc_count": 586
+        },
+        {
+          "key": "present",
+          "doc_count": 514
+        },
+        {
+          "key": "describ",
+          "doc_count": 505
+        },
+        {
+          "key": "paper",
+          "doc_count": 428
+        },
+        {
+          "key": "can",
+          "doc_count": 421
+        },
+        {
+          "key": "gener",
+          "doc_count": 411
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -573,7 +711,7 @@ POST /_reindex
 ```
 ```
 {
-  "took": 1052,
+  "took": 512,
   "timed_out": false,
   "total": 3202,
   "updated": 0,
@@ -590,6 +728,75 @@ POST /_reindex
   "requests_per_second": -1,
   "throttled_until_millis": 0,
   "failures": []
+}
+```
+
+```
+{
+  "took": 648,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_summary_terms": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 224248,
+      "buckets": [
+        {
+          "key": "the",
+          "doc_count": 1541
+        },
+        {
+          "key": "of",
+          "doc_count": 1534
+        },
+        {
+          "key": "a",
+          "doc_count": 1426
+        },
+        {
+          "key": "is",
+          "doc_count": 1384
+        },
+        {
+          "key": "and",
+          "doc_count": 1376
+        },
+        {
+          "key": "to",
+          "doc_count": 1301
+        },
+        {
+          "key": "in",
+          "doc_count": 1234
+        },
+        {
+          "key": "for",
+          "doc_count": 1182
+        },
+        {
+          "key": "are",
+          "doc_count": 1025
+        },
+        {
+          "key": "of the",
+          "doc_count": 938
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -628,7 +835,8 @@ PUT /cacm_custom_shingles13
       },
       "title": {
         "type": "text",
-        "fielddata": true
+        "fielddata": true,
+        "analyzer": "custom_shingles13"
       },
       "date": {
         "type": "date"
@@ -636,7 +844,8 @@ PUT /cacm_custom_shingles13
       "summary": {
         "type": "text",
         "index_options": "offsets",
-        "fielddata": true
+        "fielddata": true,
+        "analyzer": "custom_shingles13"
       }
     }
   }
@@ -655,7 +864,7 @@ POST /_reindex
 ```
 ```
 {
-  "took": 1379,
+  "took": 400,
   "timed_out": false,
   "total": 3202,
   "updated": 0,
@@ -675,23 +884,86 @@ POST /_reindex
 }
 ```
 
+```
+{
+  "took": 78,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_summary_terms": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 143648,
+      "buckets": [
+        {
+          "key": "in this paper",
+          "doc_count": 111
+        },
+        {
+          "key": "the use of",
+          "doc_count": 108
+        },
+        {
+          "key": "the number of",
+          "doc_count": 106
+        },
+        {
+          "key": "it is shown",
+          "doc_count": 97
+        },
+        {
+          "key": "a set of",
+          "doc_count": 88
+        },
+        {
+          "key": "in terms of",
+          "doc_count": 82
+        },
+        {
+          "key": "the problem of",
+          "doc_count": 77
+        },
+        {
+          "key": "is shown that",
+          "doc_count": 71
+        },
+        {
+          "key": "a number of",
+          "doc_count": 67
+        },
+        {
+          "key": "as well as",
+          "doc_count": 63
+        }
+      ]
+    }
+  }
+}
+```
+
 ### Stopwords Analyzer
 ```
 PUT /cacm_custom_stopwords
 {
   "settings": {
     "analysis": {
-      "filter": {
-        "english_stop": {
-          "type": "stop",
-          "stopwords_path": "data/common_words.txt"
-        }
-      },
       "analyzer": {
         "custom_stopwords": {
-          "type": "custom",
+          "type": "stop",
           "tokenizer": "standard",
-          "filter": ["english_stop"]
+          "stopwords_path": "data/common_words.txt"
         }
       }
     }
@@ -708,7 +980,8 @@ PUT /cacm_custom_stopwords
       },
       "title": {
         "type": "text",
-        "fielddata": true
+        "fielddata": true,
+        "analyzer": "custom_stopwords"
       },
       "date": {
         "type": "date"
@@ -716,7 +989,8 @@ PUT /cacm_custom_stopwords
       "summary": {
         "type": "text",
         "index_options": "offsets",
-        "fielddata": true
+        "fielddata": true,
+        "analyzer": "custom_stopwords"
       }
     }
   }
@@ -735,7 +1009,7 @@ POST /_reindex
 ```
 ```
 {
-  "took": 307,
+  "took": 252,
   "timed_out": false,
   "total": 3202,
   "updated": 0,
@@ -755,18 +1029,96 @@ POST /_reindex
 }
 ```
 
+```
+{
+  "took": 25,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 3202,
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": []
+  },
+  "aggregations": {
+    "top_summary_terms": {
+      "doc_count_error_upper_bound": 0,
+      "sum_other_doc_count": 56386,
+      "buckets": [
+        {
+          "key": "computer",
+          "doc_count": 460
+        },
+        {
+          "key": "system",
+          "doc_count": 446
+        },
+        {
+          "key": "paper",
+          "doc_count": 421
+        },
+        {
+          "key": "presented",
+          "doc_count": 381
+        },
+        {
+          "key": "time",
+          "doc_count": 357
+        },
+        {
+          "key": "program",
+          "doc_count": 344
+        },
+        {
+          "key": "data",
+          "doc_count": 318
+        },
+        {
+          "key": "method",
+          "doc_count": 308
+        },
+        {
+          "key": "algorithm",
+          "doc_count": 289
+        },
+        {
+          "key": "discussed",
+          "doc_count": 278
+        }
+      ]
+    }
+  }
+}
+```
+
 ## D9
-TODO Explain the difference between the analyzers in the different indices.
 
 ### Whitespace Analyzer
 
+The whitespace analyzer tokenizes the text into terms whenever it encounters a whitespace character. It does not perform any further processing on the terms, such as lowercasing or stemming. This means that the terms are stored as-is, without any modifications. This can be useful for preserving the original structure of the text, but it may not be suitable for all use cases, such as searching for terms with different casing or stemming variations.
+
 ### English Analyzer
+
+The English analyzer is specifically designed for processing English text. It tokenizes the text into terms, lowercases the terms, removes common English stopwords, and applies stemming to reduce the terms to their root form. This can help improve search accuracy by normalizing the terms and reducing the number of variations that need to be matched. However, it may not be suitable for non-English text or text with specialized terminology.
 
 ### Custom (Standard + Shingles 1 & 2) Analyzer
 
+The custom analyzer combines the standard tokenizer with a shingle filter that generates shingles (word pairs) of size 1 and 2. This means that each term in the text is broken down into unigrams (single words) and bigrams (word pairs). This can help capture more context and relationships between terms in the text, which can be useful for certain types of analysis, such as phrase matching or proximity search. However, it may increase the index size and query complexity.
+
 ### Custom (Standard + Shingles 1 & 3) Analyzer
 
+The custom analyzer combines the standard tokenizer with a shingle filter that generates shingles (word pairs) of size 1 and 3. This means that each term in the text is broken down into unigrams (single words) and trigrams (word triplets). This can capture even more context and relationships between terms in the text compared to the 1 & 2 shingles. However, it may further increase the index size and query complexity, as well as introduce more noise due to the larger shingle size.
+
 ### Stopwords Analyzer
+
+The custom analyzer uses a list of English stopwords to filter out common words that are not relevant for search or analysis. This can help reduce the index size, improve search performance, and focus on more meaningful terms in the text. However, it may also filter out important terms that happen to be stopwords or cause unexpected behavior if the stopwords list is not properly curated. It is important to carefully select and maintain the list of stopwords based on the specific use case and domain.
 
 ## D10
 TODO :
@@ -775,6 +1127,15 @@ b. The number of indexed terms in the summary field.
 c. The top 10 frequent terms of the summary field in the index.
 d. The size of the index on disk.
 e. The required time for indexing (e.g. using took field from response to reindex).
+
+
+| Analyzer                | Indexed Documents | Indexed Terms | Top 10 Frequent Terms | Index Size | Indexing Time |
+|-------------------------|-------------------|---------------|-----------------------|------------|---------------|
+| Whitespace Analyzer     | 3202              | 97730         | of, the, is, and, a, to, in, for, The, are | 1.7mb | 313ms |
+| English Analyzer        | 3202              | 150220        | which, us, comput, program, system, present, describ, paper, can, gener | 1.5mb | 346ms |
+| Custom (Shingles 1 & 2) | 3202              | 224248        | the, of, a, is, and, to, in, for, are, of the | 3.3mb | 512ms |
+| Custom (Shingles 1 & 3) | 3202              | 143648        | in this paper, the use of, the number of, it is shown, a set of, in terms of, the problem of, is shown that, a number of, as well as | 3.6mb | 400ms |
+| Stopwords Analyzer      | 3202              | 56386         | computer, system, paper, presented, time, program, data, method, algorithm, discussed | 1.4mb | 252ms |
 
 ## D11
 
