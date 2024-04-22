@@ -538,14 +538,14 @@ PUT /cacm_custom_shingles13
   "settings": {
     "analysis": {
       "analyzer": {
-        "custom_shingles13": {
+        "custom_shingles3": {
           "type": "custom",
           "tokenizer": "standard",
-          "filter": ["lowercase", "shingle_filter_13"]
+          "filter": ["lowercase", "shingle_filter_3"]
         }
       },
       "filter": {
-        "shingle_filter_13": {
+        "shingle_filter_3": {
           "type": "shingle",
           "max_shingle_size": 3,
           "min_shingle_size": 3,
@@ -567,7 +567,7 @@ PUT /cacm_custom_shingles13
       "title": {
         "type": "text",
         "fielddata": true,
-        "analyzer": "custom_shingles13"
+        "analyzer": "custom_shingles3"
       },
       "date": {
         "type": "date"
@@ -576,7 +576,7 @@ PUT /cacm_custom_shingles13
         "type": "text",
         "index_options": "offsets",
         "fielddata": true,
-        "analyzer": "custom_shingles13"
+        "analyzer": "custom_shingles3"
       }
     }
   }
@@ -664,9 +664,9 @@ The English analyzer is specifically designed for processing English text. It to
 
 The custom analyzer combines the standard tokenizer with a shingle filter that generates shingles (word pairs) of size 1 and 2. This means that each term in the text is broken down into unigrams (single words) and bigrams (word pairs). This can help capture more context and relationships between terms in the text, which can be useful for certain types of analysis, such as phrase matching or proximity search. However, it may increase the index size and query complexity.
 
-### Custom (Standard + Shingles 1 & 3) Analyzer
+### Custom (Standard + Shingles 3) Analyzer
 
-The custom analyzer combines the standard tokenizer with a shingle filter that generates shingles (word pairs) of size 1 and 3. This means that each term in the text is broken down into unigrams (single words) and trigrams (word triplets). This can capture even more context and relationships between terms in the text compared to the 1 & 2 shingles. However, it may further increase the index size and query complexity, as well as introduce more noise due to the larger shingle size.
+The custom analyzer combines the standard tokenizer with a shingle filter that generates shingles of size 3. This means that each term in the text is broken down into trigrams (word triplets). This can capture even more context and relationships between terms compared to shingles of size 1 and 2. It can be useful for analyzing longer phrases or capturing more complex patterns in the text. However, it may further increase the index size and query complexity compared to smaller shingles.
 
 ### Stopwords Analyzer
 
@@ -679,12 +679,18 @@ The custom analyzer uses a list of English stopwords to filter out common words 
 | Whitespace Analyzer     | 3202              | 15653         | of, the, is, and, a, to, in, for, The, are | 1.7mb | 313ms |
 | English Analyzer        | 3202              | 5221          | which, us, comput, program, system, present, describ, paper, can, gener | 1.5mb | 346ms |
 | Custom (Shingles 1 & 2) | 3202              | 78925         | the, of, a, is, and, to, in, for, are, of the | 3.3mb | 512ms |
-| Custom (Shingles 1 & 3) | 3202              | 123158        | in this paper, the use of, the number of, it is shown, a set of, in terms of, the problem of, is shown that, a number of, as well as | 3.6mb | 400ms |
+| Custom (Shingles 3)     | 3202              | 123158        | in this paper, the use of, the number of, it is shown, a set of, in terms of, the problem of, is shown that, a number of, as well as | 3.6mb | 400ms |
 | Stopwords Analyzer      | 3202              | 7936          | computer, system, paper, presented, time, program, data, method, algorithm, discussed | 1.4mb | 252ms |
 
 ## D11
 
 TODO Make 3 concluding statements bases on the above observations.
+
+1. The choice of analyzer can have a significant impact on the indexing process and the resulting index size. Analyzers that generate more terms, such as shingle analyzers, can lead to larger indexes with more terms, which may affect search performance and resource usage. It is important to carefully select an analyzer that balances the need for detailed analysis with the practical considerations of index size and query complexity.
+
+2. Analyzers that perform additional processing steps, such as stopword removal, stemming, or shingling, can help improve search accuracy and relevance by normalizing the terms and capturing more context. However, these additional steps may also introduce complexity and trade-offs in terms of index size, query performance, and maintenance. It is important to evaluate the trade-offs and choose an analyzer that best fits the specific requirements of the use case.
+
+3. The indexing time can vary depending on the complexity of the analyzer and the amount of text being processed. Analyzers that perform more processing steps, such as shingling or stemming, may require more time to index the documents compared to simpler analyzers. It is important to consider the indexing time as part of the overall performance evaluation and optimization process when selecting an analyzer for a specific use case.
 
 ## D12
 
@@ -702,7 +708,6 @@ GET /cacm_english/_search
 ```
 ### 2. Publications containing both “Information” and “Retrieval”.
 
-TODO : Fix this query
 ```
 GET /cacm_english/_search
 {
@@ -722,7 +727,7 @@ GET /cacm_english/_search
 {
   "query": {
     "query_string": {
-      "query": "summary:(+Retrieval +(Information -Database))"
+      "query": "summary:(Retrieval) AND NOT summary:(Database)"
     }
   },
   "_source": ["id"]
@@ -745,7 +750,6 @@ GET /cacm_english/_search
 
 ### 5. Publications containing the term “Information” close to “Retrieval” (max distance 5).
 
-TODO : Fix this query
 ```
 GET /cacm_english/_search
 {
@@ -775,7 +779,7 @@ GET /cacm_english/_search
 ### 2. Publications containing both “Information” and “Retrieval”.
 ```
 "total": {
-      "value": 32,
+      "value": 36,
       "relation": "eq"
     }
 ```
@@ -783,7 +787,7 @@ GET /cacm_english/_search
 
 ```
 "total": {
-      "value": 32,
+      "value": 69,
       "relation": "eq"
     }
 ```
@@ -800,7 +804,7 @@ GET /cacm_english/_search
     
 ```
 "total": {
-      "value": 25,
+      "value": 30,
       "relation": "eq"
     },
 ```
