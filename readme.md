@@ -658,7 +658,7 @@ The whitespace analyzer tokenizes the text into terms whenever it encounters a w
 
 ### English Analyzer
 
-The English analyzer is specifically designed for processing English text. It tokenizes the text into terms, lowercases the terms, removes common English stopwords, and applies stemming to reduce the terms to their root form. This can help improve search accuracy by normalizing the terms and reducing the number of variations that need to be matched. However, it may not be suitable for non-English text or text with specialized terminology.
+The English analyzer is specifically designed for processing English text. It tokenizes the text into terms, lowercases the terms, removes common English stopwords, and applies stemming to reduce the terms to their root form. This can help improve search accuracy by normalizing the terms and reducing the number of variations that need to be matched. It is well-suited for English language text analysis, but it may not be optimal for other languages or specialized domains.
 
 ### Custom (Standard + Shingles 1 & 2) Analyzer
 
@@ -670,7 +670,7 @@ The custom analyzer combines the standard tokenizer with a shingle filter that g
 
 ### Stopwords Analyzer
 
-The custom analyzer uses a list of English stopwords to filter out common words that are not relevant for search or analysis. This can help reduce the index size, improve search performance, and focus on more meaningful terms in the text. However, it may also filter out important terms that happen to be stopwords or cause unexpected behavior if the stopwords list is not properly curated. It is important to carefully select and maintain the list of stopwords based on the specific use case and domain.
+The custom analyzer uses a list of English stopwords (found in the `common_words.txt` file) to filter out common words that are not relevant for search or analysis. This can help reduce the index size, improve search performance, and focus on more meaningful terms in the text. However, it may also filter out important terms that happen to be stopwords or cause unexpected behavior if the stopwords list is not properly curated. It is important to carefully select and maintain the list of stopwords based on the specific use case and domain.
 
 ## D10
 
@@ -766,7 +766,6 @@ GET /cacm_english/_search
 
 ### 1. Publications containing the term “Information Retrieval”.
 ```
-"hits": {
     "total": {
       "value": 20,
       "relation": "eq"
