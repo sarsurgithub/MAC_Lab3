@@ -684,8 +684,6 @@ The custom analyzer uses a list of English stopwords to filter out common words 
 
 ## D11
 
-TODO Make 3 concluding statements bases on the above observations.
-
 1. The choice of analyzer can have a significant impact on the indexing process and the resulting index size. Analyzers that generate more terms, such as shingle analyzers, can lead to larger indexes with more terms, which may affect search performance and resource usage. It is important to carefully select an analyzer that balances the need for detailed analysis with the practical considerations of index size and query complexity.
 
 2. Analyzers that perform additional processing steps, such as stopword removal, stemming, or shingling, can help improve search accuracy and relevance by normalizing the terms and capturing more context. However, these additional steps may also introduce complexity and trade-offs in terms of index size, query performance, and maintenance. It is important to evaluate the trade-offs and choose an analyzer that best fits the specific requirements of the use case.
@@ -810,4 +808,27 @@ GET /cacm_english/_search
 
 ## D14
 
-TODO
+```
+GET /cacm_english/_search
+{
+  "query": {
+    "function_score": {
+      "linear": {
+        "date": {
+          "origin": "1970-01",
+          "scale": "90d",
+          "decay": 0.5         
+        }
+      },
+      "query": {
+        "match": {
+          "summary": "Information Retrieval"
+        }
+      }
+    }
+  }
+}
+```
+
+
+        
